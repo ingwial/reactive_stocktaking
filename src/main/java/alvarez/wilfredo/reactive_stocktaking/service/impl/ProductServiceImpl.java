@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Comparator;
+
 import static alvarez.wilfredo.reactive_stocktaking.service.contract.ProductBinder.PRODUCT_BINDER;
 
 @Service
@@ -46,5 +48,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<Void> deleteProduct(Long productId) {
         return this.productRepository.deleteById(productId);
+    }
+
+    @Override
+    public Flux<ProductTO> getFilteredProductsByPrice(Integer initialRange, Integer finalRange) {
+        return this.productRepository.findAll()
+                .filter(product -> product.getPrice()>=initialRange && product.getPrice()<=finalRange)
+                .map(PRODUCT_BINDER::bind);
+    }
+
+    @Override
+    public Flux<ProductTO> getSortedProductsByPrice() {
+        return this.productRepository.findAll()
+                .map(PRODUCT_BINDER::bind)
+                .sort(Comparator.comparing(ProductTO::getPrice));
     }
 }

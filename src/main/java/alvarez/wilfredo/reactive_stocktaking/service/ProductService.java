@@ -10,4 +10,6 @@ public interface ProductService {
     Mono<ProductTO> createProduct(ProductTO productTO);
     Mono<ProductTO> updateProduct(Long productId, ProductTO productTO);
     Mono<Void> deleteProduct(Long productId);
+    Flux<ProductTO> getFilteredProductsByPrice(Integer initialRange, Integer finalRange);
+    Flux<ProductTO> getSortedProductsByPrice();
 }

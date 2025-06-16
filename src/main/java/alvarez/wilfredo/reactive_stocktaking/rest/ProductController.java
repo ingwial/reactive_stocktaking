@@ -47,4 +47,16 @@ public class ProductController {
     public ResponseEntity<Mono<Void>> deleteProduct(@PathVariable Long id) {
         return ResponseEntity.ok(this.productService.deleteProduct(id));
     }
+
+    @GetMapping("/filter/price/{initial_range}/{final_range}")
+    public ResponseEntity<Flux<ProductTO>> getFilteredProductsByPrice(@PathVariable("initial_range") Integer initialRange,
+                                                                      @PathVariable("final_range") Integer finalRange
+    ) {
+        return ResponseEntity.ok(this.productService.getFilteredProductsByPrice(initialRange,finalRange));
+    }
+
+    @GetMapping("/sort/price")
+    public ResponseEntity<Flux<ProductTO>> getSortedProductsByPrice() {
+        return ResponseEntity.ok(this.productService.getSortedProductsByPrice());
+    }
 }
